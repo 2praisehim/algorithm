@@ -5,32 +5,52 @@
 
 #include <iostream>
 #include <string>
-#include <algorithm> // std::reverse()
+#include <algorithm> // std::sort(), std::reverse()
 
-int solution() {
-    int answer = 0;
+std::string solution() {
+    std::string str;
+    std::string outputStr = "";
 
-    std::string S = "";
-    std::string T = "";
+    std::cin >> str;
 
-    std::cin >> S >> T;
+    int strSize = str.size();
+    std::sort(str.begin(), str.end());
 
-    while (T.size() > S.size()) {
-        if (T[T.size() - 1] == 'A') { // Last character is A
-            T.assign(T.begin(), T.end() - 1);
+    bool haveRootChar = false;
+    std::string rootString = "";
+
+    if (strSize % 2 != 0) { // 홀수일 때
+        haveRootChar = true;
+    }
+
+    int i = 0;
+
+    while (i < strSize) {
+        if (str[i] == str[i + 1]) {
+            outputStr.push_back(str[i]);
+
+            i = i + 2;
         }
-        else { // Last character is B
-            T.assign(T.begin(), T.end() - 1);
-            std::reverse(T.begin(), T.end());
+        else if (haveRootChar) {
+            haveRootChar = false;
+            rootString.push_back(str[i]);
+
+            i = i + 1;
+        }
+        else {
+            return "I'm Sorry Hansoo";
         }
     }
 
-    if (S == T) {
-        answer = 1;
+    std::string answer = outputStr;
+
+    if (!rootString.empty()) {
+        answer += rootString;
     }
-    else {
-        answer = 0;
-    }
+
+    std::reverse(outputStr.begin(), outputStr.end());
+
+    answer += outputStr;
 
     return answer;
 }
